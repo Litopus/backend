@@ -1,12 +1,18 @@
 const express     = require('express')
 const bodyParser  = require('body-parser')
-
+const mongoose    = require('mongoose')
+require('dotenv').config()
 
 // Routes
 const signup = require('./routes/signup')
 
 let app = express()
 const PORT = process.env.PORT || '4000'
+
+mongoose.connect(process.env.MONGOOSE_CONNECT, { useMongoClient: true })
+mongoose.connection.on('error', err => 
+  console.error(`Failed to connect to DB ${err.message}`)
+)
 
 // Accept url-encoded and json headers
 app.use(bodyParser.urlencoded({ extended: true }))
